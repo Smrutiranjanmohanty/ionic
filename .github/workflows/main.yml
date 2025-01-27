@@ -26,12 +26,14 @@ jobs:
           role-to-assume: arn:aws:iam::218306567362:role/smruti-github-action-role-for-ioinc-python-app
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
       - name: Build & Push Docker Images
         run: |
           docker build -t python/smruti-python -f python-sample-app/Dockerfile .
-
+          
           docker tag python/smruti-python:latest 218306567362.dkr.ecr.ap-south-1.amazonaws.com/python/smruti-python:latest
-
+          
           docker push 218306567362.dkr.ecr.ap-south-1.amazonaws.com/python/smruti-python:latest
-
 
