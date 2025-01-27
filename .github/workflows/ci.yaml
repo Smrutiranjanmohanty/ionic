@@ -1,0 +1,39 @@
+name: CI/CD for the ioinc project
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - python-sample-app/Dockerfile
+      - .github/workflows/ci.yaml
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
+
+jobs:
+  build and push to ecr:
+    runs on: ubuntu-latest
+
+    steps:
+      - name: checkout from scm
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::218306567362:role/smruti-github-action-role-for-ioinc-python-app
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build & Push Docker Images
+        run: |
+          docker build -t python/smruti-python -f python-sample-app/Dockerfile .
+          
+          docker tag python/smruti-python:latest 218306567362.dkr.ecr.ap-south-1.amazonaws.com/python/smruti-python:latest
+          
+          docker push 218306567362.dkr.ecr.ap-south-1.amazonaws.com/python/smruti-python:latest
+
