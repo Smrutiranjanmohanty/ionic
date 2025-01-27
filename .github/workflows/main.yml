@@ -6,7 +6,7 @@ on:
       - master
     paths:
       - python-sample-app/Dockerfile
-      - .github/workflows/ci.yaml
+      - .github/workflows/main.yaml
 
 permissions:
   id-token: write # This is required for requesting the JWT
