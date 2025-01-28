@@ -4,7 +4,7 @@ RUN  apt-get update && apt-get install -y python3-pip
 
 WORKDIR /home/python-sample-app
 
-COPY requirement.txt .
+COPY python-sample-app/requirement.txt .
 
 RUN pip install -r requirement.txt
 
