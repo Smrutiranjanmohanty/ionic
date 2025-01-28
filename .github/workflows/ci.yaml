@@ -37,3 +37,5 @@ jobs:
           
           docker push 218306567362.dkr.ecr.ap-south-1.amazonaws.com/python/smruti-python:latest
 
+        #Done
+
